@@ -1,5 +1,5 @@
 // Simple script to check if your backend is working
-const BACKEND_URL = 'https://writory-i3jw.onrender.com';
+const BACKEND_URL = 'https://writory-vnt7.onrender.com';
 
 async function checkBackend() {
   try {

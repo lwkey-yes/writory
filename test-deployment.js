@@ -1,6 +1,6 @@
 // Test script to verify your deployment is working
 const FRONTEND_URL = 'https://writory-mu.vercel.app';
-const BACKEND_URL = 'https://writory-i3jw.onrender.com';
+const BACKEND_URL = 'https://writory-vnt7.onrender.com';
 
 async function testDeployment() {
   console.log('🧪 Testing Writory Deployment...\n');

@@ -32,7 +32,7 @@ To test it, run: `node check-deployment.js`
 6. Deploy!
 
 ### ✅ Step 5: COMPLETED! 
-1. ✅ Backend: https://writory-i3jw.onrender.com
+1. ✅ Backend: https://writory-vnt7.onrender.com
 2. ✅ Frontend: https://writory-mu.vercel.app
 3. 🔧 **FINAL STEP**: Update Render's `CLIENT_URL` to `https://writory-mu.vercel.app`
 
@@ -40,7 +40,7 @@ To test it, run: `node check-deployment.js`
 
 ### 🌐 Live URLs:
 - **Frontend**: https://writory-mu.vercel.app
-- **Backend**: https://writory-i3jw.onrender.com
+- **Backend**: https://writory-vnt7.onrender.com
 
 ### 🔧 Final Step:
 Update Render's `CLIENT_URL` environment variable to: `https://writory-mu.vercel.app`

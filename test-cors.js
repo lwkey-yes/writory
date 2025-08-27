@@ -1,5 +1,5 @@
 // Test CORS configuration
-const BACKEND_URL = 'https://writory-i3jw.onrender.com';
+const BACKEND_URL = 'https://writory-vnt7.onrender.com';
 const FRONTEND_URL = 'https://writory-mu.vercel.app';
 
 async function testCORS() {

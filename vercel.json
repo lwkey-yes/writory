@@ -6,7 +6,7 @@
   "rewrites": [
     {
       "source": "/api/(.*)",
-      "destination": "https://writory-i3jw.onrender.com/api/$1"
+      "destination": "https://writory-vnt7.onrender.com/api/$1"
     },
     {
       "source": "/(.*)",

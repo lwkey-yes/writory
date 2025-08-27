@@ -31,20 +31,27 @@ To test it, run: `node check-deployment.js`
    ```
 6. Deploy!
 
-### Step 5: Update URLs (Almost Done!)
-1. ✅ `client/.env.production` already updated with your Render URL
-2. Update Render's `CLIENT_URL` environment variable with your Vercel URL
-3. Push changes to trigger redeployment
+### ✅ Step 5: COMPLETED! 
+1. ✅ Backend: https://writory-i3jw.onrender.com
+2. ✅ Frontend: https://writory-mu.vercel.app
+3. 🔧 **FINAL STEP**: Update Render's `CLIENT_URL` to `https://writory-mu.vercel.app`
 
-## ✅ That's it! Your app is live!
+## 🎉 Your app is LIVE!
+
+### 🌐 Live URLs:
+- **Frontend**: https://writory-mu.vercel.app
+- **Backend**: https://writory-i3jw.onrender.com
+
+### 🔧 Final Step:
+Update Render's `CLIENT_URL` environment variable to: `https://writory-mu.vercel.app`
 
 ### Free Tier Limits:
 - MongoDB Atlas: 512MB
-- Railway: 500 hours/month
+- Render: 750 hours/month
 - Vercel: Unlimited for personal projects
 - Cloudinary: 25GB storage/month
 
 ### Troubleshooting:
-- **CORS errors**: Check CLIENT_URL in Railway matches your Vercel domain
-- **API errors**: Verify VITE_API_URL in Vercel matches your Railway domain
+- **CORS errors**: Check CLIENT_URL in Render matches your Vercel domain
+- **API errors**: Verify VITE_API_URL in Vercel matches your Render domain
 - **Database errors**: Check MongoDB connection string and IP whitelist

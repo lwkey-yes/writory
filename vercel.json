@@ -1,24 +1,16 @@
 {
   "version": 2,
-  "builds": [
+  "buildCommand": "npm run build",
+  "outputDirectory": "client/dist",
+  "installCommand": "npm install",
+  "rewrites": [
     {
-      "src": "client/package.json",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "dist"
-      }
-    }
-  ],
-  "routes": [
-    {
-      "src": "/api/(.*)",
-      "dest": "https://writory-i3jw.onrender.com/api/$1"
+      "source": "/api/(.*)",
+      "destination": "https://writory-i3jw.onrender.com/api/$1"
     },
     {
-      "src": "/(.*)",
-      "dest": "/client/$1"
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
-  ],
-  "buildCommand": "cd client && npm run build",
-  "outputDirectory": "client/dist"
+  ]
 }

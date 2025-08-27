@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Save, Eye, Upload } from 'lucide-react';
+import { Save, Eye } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import api from '../services/api';
 import toast from 'react-hot-toast';
@@ -11,12 +11,10 @@ function Write() {
     body: '',
     excerpt: '',
     tags: '',
-    featuredImage: '',
     isPublished: false,
   });
   const [loading, setLoading] = useState(false);
   const [preview, setPreview] = useState(false);
-  const [uploading, setUploading] = useState(false);
   
   const navigate = useNavigate();
 
@@ -27,38 +25,7 @@ function Write() {
     });
   };
 
-  const handleImageUpload = async (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
 
-    if (file.size > 5 * 1024 * 1024) {
-      toast.error('Image must be less than 5MB');
-      return;
-    }
-
-    setUploading(true);
-    const formDataUpload = new FormData();
-    formDataUpload.append('image', file);
-
-    try {
-      const response = await api.post('/upload/image', formDataUpload, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-
-      setFormData({
-        ...formData,
-        featuredImage: response.data.url,
-      });
-      toast.success('Image uploaded successfully');
-    } catch (error) {
-      toast.error('Failed to upload image');
-      console.error('Upload error:', error);
-    } finally {
-      setUploading(false);
-    }
-  };
 
   const handleSubmit = async (e, publish = false) => {
     e.preventDefault();
@@ -81,7 +48,6 @@ function Write() {
         body: formData.body,
         excerpt: formData.excerpt,
         tags: tagsArray,
-        featuredImage: formData.featuredImage,
         isPublished: publish,
       };
 
@@ -165,49 +131,6 @@ function Write() {
 
         {/* Sidebar */}
         <div className="space-y-6">
-          {/* Featured Image */}
-          <div className="card p-4">
-            <h3 className="font-semibold text-gray-900 mb-3">Featured Image</h3>
-            
-            {formData.featuredImage ? (
-              <div className="space-y-3">
-                <img
-                  src={formData.featuredImage}
-                  alt="Featured"
-                  className="w-full h-32 object-cover rounded-lg"
-                />
-                <button
-                  type="button"
-                  onClick={() => setFormData({ ...formData, featuredImage: '' })}
-                  className="text-sm text-red-600 hover:text-red-700"
-                >
-                  Remove image
-                </button>
-              </div>
-            ) : (
-              <div>
-                <input
-                  type="file"
-                  accept="image/jpeg,image/jpg,image/png,image/webp"
-                  onChange={handleImageUpload}
-                  className="hidden"
-                  id="image-upload"
-                />
-                <label
-                  htmlFor="image-upload"
-                  className="flex items-center justify-center w-full h-32 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-gray-400 transition-colors"
-                >
-                  <div className="text-center">
-                    <Upload className="h-6 w-6 text-gray-400 mx-auto mb-2" />
-                    <p className="text-sm text-gray-600">
-                      {uploading ? 'Uploading...' : 'Upload image'}
-                    </p>
-                  </div>
-                </label>
-              </div>
-            )}
-          </div>
-
           {/* Post Settings */}
           <div className="card p-4 space-y-4">
             <h3 className="font-semibold text-gray-900">Post Settings</h3>

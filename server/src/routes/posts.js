@@ -88,9 +88,9 @@ router.get('/', optionalAuth, async (req, res) => {
 // Get single post by slug
 router.get('/:slug', optionalAuth, async (req, res) => {
   try {
-    const post = await Post.findOne({ 
+    const post = await Post.findOne({
       slug: req.params.slug,
-      isPublished: true 
+      isPublished: true
     }).populate('author', 'name avatar bio');
 
     if (!post) {
@@ -111,6 +111,26 @@ router.get('/:slug', optionalAuth, async (req, res) => {
       ...post.toObject(),
       isLiked,
     });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error', error: error.message });
+  }
+});
+
+// Get single post by ID (for editing)
+router.get('/edit/:id', authenticate, async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.id).populate('author', 'name avatar bio');
+
+    if (!post) {
+      return res.status(404).json({ message: 'Post not found' });
+    }
+
+    // Check ownership
+    if (post.author._id.toString() !== req.user._id.toString()) {
+      return res.status(403).json({ message: 'Not authorized to edit this post' });
+    }
+
+    res.json(post);
   } catch (error) {
     res.status(500).json({ message: 'Server error', error: error.message });
   }
@@ -189,7 +209,7 @@ router.delete('/:id', authenticate, async (req, res) => {
     // Delete associated comments and likes
     await Comment.deleteMany({ post: post._id });
     await Like.deleteMany({ post: post._id });
-    
+
     await Post.findByIdAndDelete(req.params.id);
 
     res.json({ message: 'Post deleted successfully' });

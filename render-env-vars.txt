@@ -1,0 +1,10 @@
+Add these environment variables to your Render service:
+
+NODE_ENV=production
+PORT=10000
+MONGODB_URI=mongodb+srv://cglwkey:2PH2ZhKZLAoH9uM5@writory.avdmthu.mongodb.net/writory?retryWrites=true&w=majority
+CLIENT_URL=https://writory-mu.vercel.app
+JWT_ACCESS_SECRET=060c0a1f20b3b2492acf84873e90767a58f3cbf12e26c249c2bdb7ba9b502f1a
+JWT_REFRESH_SECRET=38f39174753b846f75f55c54946ce502dd5159b0e5fef63f07e0ce5c6e314583
+JWT_ACCESS_EXPIRES_IN=15m
+JWT_REFRESH_EXPIRES_IN=7d

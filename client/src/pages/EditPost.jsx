@@ -26,7 +26,7 @@ function EditPost() {
 
   const fetchPost = async () => {
     try {
-      const response = await api.get(`/posts/${id}`);
+      const response = await api.get(`/posts/edit/${id}`);
       const post = response.data;
       
       setFormData({
@@ -37,7 +37,14 @@ function EditPost() {
         isPublished: post.isPublished,
       });
     } catch (error) {
-      toast.error('Failed to load post');
+      console.error('Edit post error:', error);
+      if (error.response?.status === 403) {
+        toast.error('You are not authorized to edit this post');
+      } else if (error.response?.status === 404) {
+        toast.error('Post not found');
+      } else {
+        toast.error('Failed to load post');
+      }
       navigate('/');
     } finally {
       setLoading(false);
@@ -82,7 +89,14 @@ function EditPost() {
       toast.success('Post updated successfully!');
       navigate(`/post/${response.data.slug}`);
     } catch (error) {
-      toast.error('Failed to update post');
+      console.error('Update post error:', error);
+      if (error.response?.status === 403) {
+        toast.error('You are not authorized to edit this post');
+      } else if (error.response?.status === 404) {
+        toast.error('Post not found');
+      } else {
+        toast.error('Failed to update post');
+      }
     } finally {
       setSaving(false);
     }

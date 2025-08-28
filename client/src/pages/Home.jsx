@@ -67,26 +67,26 @@ function Home() {
   }
 
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
       {/* Hero Section */}
-      <div className="text-center mb-12">
-        <h1 className="text-4xl font-bold text-gray-900 mb-4">
+      <div className="text-center mb-8 sm:mb-12">
+        <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-3 sm:mb-4">
           Welcome to Writory
         </h1>
-        <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+        <p className="text-base sm:text-lg lg:text-xl text-gray-600 max-w-2xl mx-auto px-2">
           Discover stories, thinking, and expertise from writers on any topic.
         </p>
       </div>
 
       {/* Filters */}
-      <div className="mb-8">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-4">
-            <Filter className="h-4 w-4 text-gray-500" />
+      <div className="mb-6 sm:mb-8">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-3 sm:space-y-0">
+          <div className="flex items-center space-x-3 sm:space-x-4">
+            <Filter className="h-4 w-4 text-gray-500 flex-shrink-0" />
             <select
               value={sortBy}
               onChange={(e) => handleSortChange(e.target.value)}
-              className="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-gray-500"
+              className="border border-gray-300 rounded-lg px-3 py-2 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-gray-500 flex-1 sm:flex-none"
             >
               <option value="newest">Newest</option>
               <option value="oldest">Oldest</option>
@@ -95,8 +95,8 @@ function Home() {
           </div>
 
           {searchQuery && (
-            <div className="text-sm text-gray-600">
-              Showing results for "{searchQuery}"
+            <div className="text-xs sm:text-sm text-gray-600 px-1">
+              Results for "<span className="font-medium">{searchQuery}</span>"
             </div>
           )}
         </div>
@@ -110,7 +110,7 @@ function Home() {
           </p>
         </div>
       ) : (
-        <div className="space-y-6">
+        <div className="space-y-4 sm:space-y-6">
           {posts.map((post, index) => (
             <PostCard key={post._id} post={post} index={index} />
           ))}

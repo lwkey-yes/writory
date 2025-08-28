@@ -65,13 +65,13 @@ function Write() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">Write a new post</h1>
-        <p className="text-gray-600">Share your thoughts with the world.</p>
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+      <div className="mb-6 sm:mb-8">
+        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Write a new post</h1>
+        <p className="text-sm sm:text-base text-gray-600">Share your thoughts with the world.</p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
         {/* Editor */}
         <div className="lg:col-span-2">
           <form onSubmit={(e) => handleSubmit(e, false)} className="space-y-6">
@@ -82,7 +82,7 @@ function Write() {
                 value={formData.title}
                 onChange={handleChange}
                 placeholder="Post title..."
-                className="w-full text-3xl font-bold border-none outline-none placeholder-gray-400 resize-none"
+                className="w-full text-xl sm:text-2xl lg:text-3xl font-bold border-none outline-none placeholder-gray-400 resize-none"
                 required
               />
             </div>
@@ -93,37 +93,37 @@ function Write() {
                 value={formData.body}
                 onChange={handleChange}
                 placeholder="Write your post in Markdown..."
-                className="w-full h-96 border border-gray-300 rounded-lg p-4 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:border-transparent resize-none font-mono"
+                className="w-full h-64 sm:h-80 lg:h-96 border border-gray-300 rounded-lg p-3 sm:p-4 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-gray-500 focus:border-transparent resize-none font-mono"
                 required
               />
             </div>
 
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-3 sm:space-y-0">
               <button
                 type="button"
                 onClick={() => setPreview(!preview)}
-                className="btn btn-outline flex items-center space-x-2"
+                className="btn btn-outline flex items-center justify-center space-x-2 text-sm sm:text-base"
               >
                 <Eye className="h-4 w-4" />
                 <span>{preview ? 'Hide Preview' : 'Show Preview'}</span>
               </button>
 
-              <div className="flex space-x-3">
+              <div className="flex space-x-2 sm:space-x-3">
                 <motion.button
                   type="submit"
                   disabled={loading}
-                  className="btn btn-secondary flex items-center space-x-2"
+                  className="btn btn-secondary flex items-center space-x-1 sm:space-x-2 text-sm sm:text-base flex-1 sm:flex-none justify-center"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
-                  <Save className="h-4 w-4" />
+                  <Save className="h-3 w-3 sm:h-4 sm:w-4" />
                   <span>Save Draft</span>
                 </motion.button>
                 <motion.button
                   type="button"
                   onClick={(e) => handleSubmit(e, true)}
                   disabled={loading}
-                  className="btn btn-primary"
+                  className="btn btn-primary text-sm sm:text-base flex-1 sm:flex-none"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >

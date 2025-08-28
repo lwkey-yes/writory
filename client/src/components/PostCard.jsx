@@ -1,14 +1,28 @@
 import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import { formatDistanceToNow } from 'date-fns';
 import { Heart, MessageCircle, User } from 'lucide-react';
 
-function PostCard({ post }) {
+function PostCard({ post, index = 0 }) {
   const formattedDate = formatDistanceToNow(new Date(post.publishedAt || post.createdAt), {
     addSuffix: true,
   });
 
   return (
-    <article className="card p-6 hover:shadow-md transition-shadow">
+    <motion.article 
+      className="card p-6 hover:shadow-lg transition-all duration-300"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ 
+        duration: 0.4, 
+        delay: index * 0.1,
+        ease: "easeOut" 
+      }}
+      whileHover={{ 
+        y: -4,
+        transition: { duration: 0.2 }
+      }}
+    >
       <div className="flex items-center space-x-3 mb-4">
         <div className="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center">
           <User className="h-4 w-4 text-gray-600" />
@@ -20,9 +34,13 @@ function PostCard({ post }) {
       </div>
 
       <Link to={`/post/${post.slug}`} className="block group">
-        <h2 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-gray-700 transition-colors">
+        <motion.h2 
+          className="text-xl font-bold text-gray-900 mb-2 group-hover:text-gray-700 transition-colors"
+          whileHover={{ scale: 1.02 }}
+          transition={{ duration: 0.2 }}
+        >
           {post.title}
-        </h2>
+        </motion.h2>
         
         {post.excerpt && (
           <p className="text-gray-600 mb-4 line-clamp-3">
@@ -68,7 +86,7 @@ function PostCard({ post }) {
           </div>
         </div>
       </div>
-    </article>
+    </motion.article>
   );
 }
 

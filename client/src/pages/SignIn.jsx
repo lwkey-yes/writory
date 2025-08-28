@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import { PenTool } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import toast from 'react-hot-toast';
@@ -46,7 +47,12 @@ function SignIn() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
+      <motion.div 
+        className="max-w-md w-full space-y-8"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
         <div className="text-center">
           <div className="flex justify-center">
             <PenTool className="h-12 w-12 text-gray-900" />
@@ -97,13 +103,15 @@ function SignIn() {
           </div>
 
           <div>
-            <button
+            <motion.button
               type="submit"
               disabled={loading}
               className="w-full btn btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
             >
               {loading ? 'Signing in...' : 'Sign in'}
-            </button>
+            </motion.button>
           </div>
 
           <div className="text-center">
@@ -124,7 +132,7 @@ function SignIn() {
             Password: SeedPass123!
           </p>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 }

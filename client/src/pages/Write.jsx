@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Save, Eye } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import api from '../services/api';
@@ -108,22 +109,26 @@ function Write() {
               </button>
 
               <div className="flex space-x-3">
-                <button
+                <motion.button
                   type="submit"
                   disabled={loading}
                   className="btn btn-secondary flex items-center space-x-2"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
                 >
                   <Save className="h-4 w-4" />
                   <span>Save Draft</span>
-                </button>
-                <button
+                </motion.button>
+                <motion.button
                   type="button"
                   onClick={(e) => handleSubmit(e, true)}
                   disabled={loading}
                   className="btn btn-primary"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
                 >
                   Publish
-                </button>
+                </motion.button>
               </div>
             </div>
           </form>
@@ -172,15 +177,23 @@ function Write() {
       </div>
 
       {/* Preview */}
-      {preview && (
-        <div className="mt-8 border-t pt-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">Preview</h2>
-          <article className="prose-custom">
-            <h1>{formData.title || 'Untitled Post'}</h1>
-            <ReactMarkdown>{formData.body || 'Start writing to see preview...'}</ReactMarkdown>
-          </article>
-        </div>
-      )}
+      <AnimatePresence>
+        {preview && (
+          <motion.div 
+            className="mt-8 border-t pt-8"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.3 }}
+          >
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">Preview</h2>
+            <article className="prose-custom">
+              <h1>{formData.title || 'Untitled Post'}</h1>
+              <ReactMarkdown>{formData.body || 'Start writing to see preview...'}</ReactMarkdown>
+            </article>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

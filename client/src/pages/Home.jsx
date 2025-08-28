@@ -111,8 +111,8 @@ function Home() {
         </div>
       ) : (
         <div className="space-y-6">
-          {posts.map((post) => (
-            <PostCard key={post._id} post={post} />
+          {posts.map((post, index) => (
+            <PostCard key={post._id} post={post} index={index} />
           ))}
         </div>
       )}

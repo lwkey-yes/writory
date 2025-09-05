@@ -10,6 +10,7 @@ function Profile() {
   const { user, updateUser } = useAuth();
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [postsLoaded, setPostsLoaded] = useState(false);
   const [pagination, setPagination] = useState({});
   const [showEditModal, setShowEditModal] = useState(false);
   const [editForm, setEditForm] = useState({
@@ -33,11 +34,15 @@ function Profile() {
 
   const fetchUserPosts = async () => {
     try {
+      setLoading(true);
       const response = await api.get('/posts/user/me');
-      setPosts(response.data.posts);
-      setPagination(response.data.pagination);
+      setPosts(response.data.posts || []);
+      setPagination(response.data.pagination || {});
+      setPostsLoaded(true);
     } catch (error) {
       toast.error('Failed to fetch your posts');
+      setPosts([]);
+      setPostsLoaded(true);
     } finally {
       setLoading(false);
     }
@@ -50,7 +55,12 @@ function Profile() {
 
     try {
       await api.delete(`/posts/${postId}`);
-      setPosts(posts.filter(post => post._id !== postId));
+      const updatedPosts = posts.filter(post => post._id !== postId);
+      setPosts(updatedPosts);
+      setPagination(prev => ({
+        ...prev,
+        total: Math.max(0, (prev.total || 0) - 1)
+      }));
       toast.success('Post deleted successfully');
     } catch (error) {
       toast.error('Failed to delete post');
@@ -94,10 +104,66 @@ function Profile() {
     });
   };
 
-  if (loading) {
+  // Skeleton loading component for posts
+  const PostSkeleton = () => (
+    <div className="card p-4 sm:p-6 animate-pulse">
+      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between space-y-3 sm:space-y-0">
+        <div className="flex-1 min-w-0">
+          <div className="flex flex-col sm:flex-row sm:items-center space-y-1 sm:space-y-0 sm:space-x-2 mb-2">
+            <div className="h-5 sm:h-6 bg-gray-200 rounded w-3/4"></div>
+            <div className="h-4 bg-gray-200 rounded w-12 self-start"></div>
+          </div>
+          <div className="h-4 bg-gray-200 rounded w-full mb-1"></div>
+          <div className="h-4 bg-gray-200 rounded w-2/3 mb-2 sm:mb-3"></div>
+          <div className="flex flex-col sm:flex-row sm:items-center space-y-1 sm:space-y-0 sm:space-x-4">
+            <div className="h-3 bg-gray-200 rounded w-24"></div>
+            <div className="flex items-center space-x-3 sm:space-x-4">
+              <div className="h-3 bg-gray-200 rounded w-12"></div>
+              <div className="h-3 bg-gray-200 rounded w-16"></div>
+            </div>
+          </div>
+          <div className="flex flex-wrap gap-1.5 sm:gap-2 mt-2 sm:mt-3">
+            <div className="h-6 bg-gray-200 rounded-full w-16"></div>
+            <div className="h-6 bg-gray-200 rounded-full w-20"></div>
+          </div>
+        </div>
+        <div className="flex items-center justify-end space-x-1 sm:space-x-2 sm:ml-4 flex-shrink-0">
+          <div className="h-6 w-6 sm:h-8 sm:w-8 bg-gray-200 rounded"></div>
+          <div className="h-6 w-6 sm:h-8 sm:w-8 bg-gray-200 rounded"></div>
+          <div className="h-6 w-6 sm:h-8 sm:w-8 bg-gray-200 rounded"></div>
+        </div>
+      </div>
+    </div>
+  );
+
+  if (loading && !postsLoaded) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+        {/* Profile Header Skeleton */}
+        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6 mb-6 sm:mb-8 animate-pulse">
+          <div className="flex flex-col sm:flex-row sm:items-center space-y-4 sm:space-y-0 sm:space-x-4">
+            <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gray-200 rounded-full flex-shrink-0"></div>
+            <div className="flex-1 min-w-0">
+              <div className="h-6 sm:h-8 bg-gray-200 rounded w-48 mb-2"></div>
+              <div className="h-4 sm:h-5 bg-gray-200 rounded w-64 mb-2"></div>
+              <div className="h-4 bg-gray-200 rounded w-full"></div>
+            </div>
+            <div className="h-9 sm:h-10 bg-gray-200 rounded w-full sm:w-32"></div>
+          </div>
+        </div>
+
+        {/* Posts Section Header Skeleton */}
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 sm:mb-6 space-y-3 sm:space-y-0 animate-pulse">
+          <div className="h-6 sm:h-7 bg-gray-200 rounded w-40"></div>
+          <div className="h-9 sm:h-10 bg-gray-200 rounded w-full sm:w-32"></div>
+        </div>
+
+        {/* Posts Skeleton */}
+        <div className="space-y-3 sm:space-y-4">
+          {[...Array(3)].map((_, index) => (
+            <PostSkeleton key={index} />
+          ))}
+        </div>
       </div>
     );
   }
@@ -130,7 +196,10 @@ function Profile() {
       {/* Posts Section */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 sm:mb-6 space-y-3 sm:space-y-0">
         <h2 className="text-lg sm:text-xl font-bold text-gray-900">
-          Your Posts ({pagination.total || 0})
+          Your Posts {postsLoaded && `(${pagination.total || 0})`}
+          {loading && !postsLoaded && (
+            <span className="inline-block w-8 h-4 bg-gray-200 rounded animate-pulse ml-1"></span>
+          )}
         </h2>
         <Link to="/write" className="btn btn-primary flex items-center justify-center space-x-1 sm:space-x-2 text-sm sm:text-base w-full sm:w-auto">
           <Plus className="h-3 w-3 sm:h-4 sm:w-4" />
@@ -138,7 +207,14 @@ function Profile() {
         </Link>
       </div>
 
-      {posts.length === 0 ? (
+      {loading && !postsLoaded ? (
+        // Show skeleton while loading
+        <div className="space-y-3 sm:space-y-4">
+          {[...Array(3)].map((_, index) => (
+            <PostSkeleton key={index} />
+          ))}
+        </div>
+      ) : posts.length === 0 ? (
         <div className="text-center py-8 sm:py-12">
           <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
             <Edit className="h-6 w-6 sm:h-8 sm:w-8 text-gray-400" />
